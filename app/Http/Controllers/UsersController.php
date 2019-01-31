@@ -9,10 +9,12 @@ use App\Role;
 class UsersController extends Controller
 {
 
-	public function admin(){
-		$users = User::all();
+	public function index(){
+		//$users = User::all();
+		$users = 'φφφ';
 		$title = 'Admin';
-		return view('admin')->with('users',$users );
+		//return view('admin')->with('users',$users );
+		return view('admin')->with('title',$title);
 	}
 
 }

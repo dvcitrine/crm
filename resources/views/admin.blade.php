@@ -11,7 +11,7 @@
         <th></th>
         </thead>
         <tbody>
-        @foreach($users as $user)
+       <!-- foreach($users as $user)
             <tr>
                 <form action="{{ route('admin.assign') }}" method="post">
                     <td>{{ $user->name }}</td>
@@ -23,7 +23,7 @@
                     <td><button type="submit">Assign Roles</button></td>
                 </form>
             </tr>
-        @endforeach
+        endforeach-->
         </tbody>
     </table>
 @endsection

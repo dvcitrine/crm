@@ -31,4 +31,4 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('admin', 'UsersController@admin');
+Route::get('/admin', 'UsersController@index');
