@@ -32,10 +32,25 @@ class User extends Authenticatable
 	public function posts(){
 		return $this->hasMany('App\Post');
 	}
+	public function hours(){
+		return $this->hasMany('App\Hour');
+	}
+	public function clients(){
+		return $this->hasMany('App\Client');
+	}
 	
     public function roles(){
 		return $this->belongsToMany('App\Role');
 	}	
+	public function project_codes(){
+		return $this->hasMany('App\ProjectCode');
+	}
+	public function assigned_project_codes(){
+		return $this->belongsToMany('App\ProjectCode');
+	}
+
+	
+	
 	
 	public function hasAnyRole($roles){
 		if(is_array($roles)){

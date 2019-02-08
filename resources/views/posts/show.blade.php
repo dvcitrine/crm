@@ -4,7 +4,6 @@
 	<a href="/posts" class="btn btn-primary">Back</a>
 	<div class="content">
 	<h1>{{$post->title}}</h1>
-		<div>Single Post page</div>
 	
 	<div>
 	{!!$post->body!!}

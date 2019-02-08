@@ -22,13 +22,21 @@ Route::get('/users/{id}/{name}', function ($id,$name) {
     return 'This is user '.$name.'with and id '.$id;
 });
 */
-Route::get('/', 'PagesController@index');
+Route::get('/', 'HoursController@index');
 Route::get('/about', 'PagesController@about');
-Route::get('/services', 'PagesController@services');
+Route::get('/users', 'UsersController@index')->name('users');
+//Route::get('/services', 'PagesController@services');
 
 Route::resource('posts', 'PostsController');
+Route::resource('services', 'ServicesController');
+Route::resource('clients', 'ClientsController');
+Route::resource('project-codes', 'ProjectCodesController');
+Route::resource('hours', 'HoursController');
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/admin', 'UsersController@index');
+//Route::get('/admin', 'UsersController@index');
+Route::get('/admin', function () {
+    return 'Hello World';
+})->name('admin');

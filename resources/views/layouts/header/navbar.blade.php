@@ -55,8 +55,14 @@
 				<a class="nav-link" href="/posts">Posts</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="/admin">Admin</a>
+				<a class="nav-link" href="/clients">Clients</a>
 			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="/project-codes">Project Codes</a>
+			  </li>
+			  <!--<li class="nav-item">
+				<a class="nav-link" href="/admin">Admin</a>
+			  </li>-->
 			@if (Route::has('register'))
 			<li class="nav-item">
 				<a class="nav-link" href="{{ route('register') }}">{{ __('Add New User') }}</a>
