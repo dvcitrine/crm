@@ -24,6 +24,9 @@ class ProjectCode extends Model
 	public function service(){
 		return $this->belongsTo('App\Service');
 	}
+	public function hours(){
+		return $this->hasMany('App\Hour');
+	}
 	
 	
 	public function is_project_assigned_to_user($id){

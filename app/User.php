@@ -32,7 +32,7 @@ class User extends Authenticatable
 	public function posts(){
 		return $this->hasMany('App\Post');
 	}
-	public function hours(){
+	public function hour(){
 		return $this->hasMany('App\Hour');
 	}
 	public function clients(){

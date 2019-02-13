@@ -15,4 +15,7 @@ class Hour extends Model
 	public function user(){
 		return $this->belongsTo('App\User');
 	}
+	public function project_code(){
+		return $this->belongsTo('App\ProjectCode');
+	}
 }

@@ -31,7 +31,7 @@ Route::resource('posts', 'PostsController');
 Route::resource('services', 'ServicesController');
 Route::resource('clients', 'ClientsController');
 Route::resource('project-codes', 'ProjectCodesController');
-Route::resource('hours', 'HoursController');
+Route::resource('/', 'HoursController');
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');

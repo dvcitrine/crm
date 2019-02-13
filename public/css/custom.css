@@ -6,26 +6,49 @@ h1 {
 	/*color:red;*/
 }
 .btn:hover {
-	opacity: 0.8;
+	opacity: 0.7;
 }
 
 .btn {
 	transition: opacity 0.3s;
 }
 
-.hours-date {
-	font-size: 16px;
+.modal-content {
+	box-shadow: 0 5px 16px rgba(0,0,0,0.4);
 }
 
+.modal-header .close {
+    margin-top: -0.5rem;
+}
+
+.hours-date {
+	font-size: 28px;
+}
+.listed-hours {
+	font-size: 18px;
+}
+.modal-title .hours-date {
+	font-size: inherit;
+}
 .content form {
 	max-width: 700px;
 }
 .content form input[type='text'],.content form  select {
 	max-width: 300px;
 }
-
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,.04);
+}
 .btn-navigation-tray {
 	margin-bottom: 20px;
     margin-right: 20px;
 	display: inline-block;
+}
+#hours .col-md-4{
+	padding: 0 6px;
+}
+
+.clearfix:before, .clearfix:after, .dl-horizontal dd:before, .dl-horizontal dd:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .row:before, .row:after, .form-horizontal .form-group:before, .form-horizontal .form-group:after, .btn-toolbar:before, .btn-toolbar:after, .btn-group-vertical>.btn-group:before, .btn-group-vertical>.btn-group:after, .nav:before, .nav:after, .navbar:before, .navbar:after, .navbar-header:before, .navbar-header:after, .navbar-collapse:before, .navbar-collapse:after, .pager:before, .pager:after, .panel-body:before, .panel-body:after, .modal-header:before, .modal-header:after, .modal-footer:before, .modal-footer:after {
+    content: " ";
+    display: table;
 }
