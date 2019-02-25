@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="content">
-		<h1>Edit Project code</h1>	
+		<h1>Edit Project</h1>	
 		{!! Form::open(['action' => ['ProjectCodesController@update', $project_code->id], 'method' => 'POST']) !!}
 			<div class="form-group">
 				{{ Form::label('title', 'Title') }}
@@ -37,7 +37,7 @@
 					@endforeach
 			</div>
 			{{Form::hidden('_method', 'PUT')}} <!-- This is because update requires PUT and we cant change the form method directly-->
-			{{Form::submit('Update Project Code', ['class' => 'btn btn-submit'])}}
+			{{Form::submit('Update Project', ['class' => 'btn btn-submit'])}}
 		{!! Form::close() !!}
 	</div>
 @endsection

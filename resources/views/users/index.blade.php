@@ -1,29 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <table>
-        <thead>
-        <th>Name</th>
-        <th>E-Mail</th>
-        <th>User</th>
-        <th>Author</th>
-        <th>Admin</th>
-        <th></th>
-        </thead>
-        <tbody>
-       @foreach($users as $user)
-            <tr>
-                <form action="{{ route('admin') }}" method="post">
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }} <input type="hidden" name="email" value="{{ $user->email }}"></td>
-                    <td><input type="checkbox" {{ $user->hasRole('user') ? 'checked' : '' }} name="role_user"></td>
-                    <td><input type="checkbox" {{ $user->hasRole('author') ? 'checked' : '' }} name="role_author"></td>
-                    <td><input type="checkbox" {{ $user->hasRole('admin') ? 'checked' : '' }} name="role_admin"></td>
+    <div class="tablelike">
+        <div>
+			<div>Name</div>
+			<div>E-Mail</div>
+			<div>User</div>
+			<div>Manager</div>
+			<div>Admin</div>
+			<div></div>
+        </div>
 
-                    <td><button type="submit">Assign Roles</button></td>
-                </form>
-            </tr>
+		@foreach($users as $user)
+		<form action="{{ route('admin') }}" method="post">
+			<div>{{ $user->name }}</div>
+			<div>{{ $user->email }} <input type="hidden" name="email" value="{{ $user->email }}"></div>
+			<div><input type="radio" {{ $user->hasRole('user') ? 'checked' : '' }} name="role_user"></div>
+			<div><input type="radio" {{ $user->hasRole('manager') ? 'checked' : '' }} name="role_user"></div>
+			<div><input type="radio" {{ $user->hasRole('admin') ? 'checked' : '' }} name="role_user"></div>
+			<div><button class="btn" type="submit">Assign Role</button></div>
+		</form>
         @endforeach
-        </tbody>
-    </table>
+
+    </div>
 @endsection

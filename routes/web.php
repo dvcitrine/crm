@@ -23,6 +23,11 @@ Route::get('/users/{id}/{name}', function ($id,$name) {
 });
 */
 Route::get('/', 'HoursController@index');
+Route::post('/edithour', 'HoursController@show');
+Route::put('/update', 'HoursController@update');
+Route::get('/destroy_hour', 'HoursController@destroy_hour');
+
+Route::post('/loadmorehours', 'HoursController@loadhours');
 Route::get('/about', 'PagesController@about');
 Route::get('/users', 'UsersController@index')->name('users');
 //Route::get('/services', 'PagesController@services');
@@ -30,7 +35,7 @@ Route::get('/users', 'UsersController@index')->name('users');
 Route::resource('posts', 'PostsController');
 Route::resource('services', 'ServicesController');
 Route::resource('clients', 'ClientsController');
-Route::resource('project-codes', 'ProjectCodesController');
+Route::resource('projects', 'ProjectCodesController');
 Route::resource('/', 'HoursController');
 Auth::routes();
 

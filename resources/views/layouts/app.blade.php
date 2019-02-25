@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<link rel="shortcut icon" href="{{{ asset('img/favicon.png') }}}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -20,6 +20,7 @@
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{asset('css/app.css')}}" type="text/css">
 	<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
 	
 
@@ -39,13 +40,17 @@
 	
 	<!-- Scripts -->
 	<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-	<script src="{{ asset('js/select2.min.js') }}"></script>	
+	<script src="{{ asset('js/select2.min.js') }}"></script>
+	<script src="{{ asset('js/moment.min.js') }}"></script>
+	<script src="{{ asset('js/daterangepicker.min.js') }}"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="{{asset('js/bootstrap.js')}}" type="text/javascript"></script>
 	<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 	<script>
 		CKEDITOR.replace( 'article-ckeditor' );
 	</script>
+	
 	<script src="{{ asset('js/custom.js') }}"></script>	
 </body>
 </html>

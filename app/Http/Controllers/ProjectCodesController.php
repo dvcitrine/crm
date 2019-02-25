@@ -19,8 +19,9 @@ class ProjectCodesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
-		$this->middleware('checkadmin');
+        //$this->middleware('auth', ['except' => ['index', 'show']]);
+		$this->middleware('auth');
+		$this->middleware('checkifuser');
     }
 	
     /**
@@ -41,7 +42,8 @@ class ProjectCodesController extends Controller
      */
     public function create()
     {	
-		$clients = Client::all();
+		//$clients = Client::all();
+		$clients = Client::where('active', '1')->get();
 		$services = Service::all();
 		$users = User::all();
         return view('project_codes.create',compact('clients','services','users'));
@@ -66,9 +68,16 @@ class ProjectCodesController extends Controller
 		$projectcode->body = $request->input('body');
 		$projectcode->client_id = $request->input('client');
 		$projectcode->service_id = $request->input('service');
+		$projectcode->month = $request->input('month');
+		$projectcode->year = $request->input('year');
+		$projectcode->start_date = $request->input('start-date');
+		$projectcode->end_date = $request->input('end-date');
+		$projectcode->internal_link = $request->input('internal-link');
+		$projectcode->client_link = $request->input('client-link');
+		$projectcode->active = $request->input('active');
 		$projectcode->user_id = auth()->user()->id;
 		$assigned_to = $request->input('user_id');
-		
+			
 		//$projectcode->save()->assigned_users()->attach($assigned_to);
 		$projectcode->save();
 		$projectcode->assigned_users()->sync($assigned_to);

@@ -8,6 +8,7 @@ use App\ProjectCode;
 use App\Service;
 use App\Client;
 use App\User;
+use View;
 // use this to use normal sql
 //use DB;
 
@@ -20,7 +21,7 @@ class HoursController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth');
     }
 	
     /**
@@ -41,7 +42,7 @@ class HoursController extends Controller
 		$today = date('l, j / n / Y');
 		$today_timestamp = strtotime("today");
 		//$hours = Hour::orderBy('created_at','desc')->paginate(10);
-		$hours = Hour::orderBy('created_at','desc')->where('date', $today_timestamp)->where('user_id', 'like', auth()->user()->id)->get();
+		$hours = Hour::orderBy('created_at','asc')->where('date', $today_timestamp)->where('user_id', 'like', auth()->user()->id)->get();
 		//$hours = $hours_all->user;
         return view('hours.index',compact('hours','today','project_codes','clients','today_timestamp'));
     }
@@ -76,8 +77,10 @@ class HoursController extends Controller
 		$hour->user_id = auth()->user()->id;
 		
 		//$hour->save()->assigned_users()->attach($assigned_to);
-		$hour->save();
-		return redirect('/')->with('success', 'Task Created.');
+		$hour->save();		
+		$hour->project = $hour->project_code;		
+		return response()->json($hour);
+		//return redirect('/')->with('success', 'Task Created.');
     }
 
     /**
@@ -86,15 +89,16 @@ class HoursController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {		
-		$users = Hour::find($id)->assigned_users;
+		$id = $request->input('id');
+		//$project = Hour::find($id)->project_code;
 		//this returns a single Hour -it uses Eloquent
-        $project_code = Hour::find($id);
-		$client = Client::find($project_code->client_id);
-		$service = Service::find($project_code->service_id);
-		//return view('hours.show')->with('project_code',$hour);
-		return view('hours.show',compact('project_code','client','users','service'));
+        $hour = Hour::find($id);
+		//$hour->project = Hour::find($id)->project_code;
+		
+		return response()->json($hour);
+		//return view('hours.show',compact('hour','client','users','service'));
     }
 
     /**
@@ -127,25 +131,23 @@ class HoursController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $this->validate($request, [
-			'title' => 'required',
-			'body' => 'required'
+			//'title' => 'required',
+			//'body' => 'required'
 			
 		]);
-		// Create Hour
+		$id = $request->input('id');
+		// Update Hour
 		$hour = Hour::find($id);
-		$hour->title = $request->input('title');
-		$hour->body = $request->input('body');
-		$hour->client_id = $request->input('client');
-		$hour->service_id = $request->input('service');
-		$assigned_to = $request->input('user_id');
-		
+		$hour->project_code_id = $request->input('project_code_id');
+		$hour->description = $request->input('description');
+		$hour->date = $request->input('timestamp');
+		$hour->minutes = (intval($request->input('hours')))*60 + intval($request->input('minutes'));		
 		$hour->save();
-		$hour->assigned_users()->sync($assigned_to);
-		
-		return redirect('/project-codes')->with('success', 'Project code updated.');
+		$hour->project = $hour->project_code;
+		return response()->json($hour);
     }
 
     /**
@@ -154,17 +156,37 @@ class HoursController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy_hour(Request $request)
     {
+		$id = $request->input('id');
         $hour = Hour::find($id);
-		$client = Client::find($hour->client_id);
-		
-		//Check for correct user
-		if(auth()->user()->id !==$client->user_id) {
-			return redirect('/hours')->with('error', 'Unauthorized page');
-		}
-		$hour->assigned_users()->sync([]);
 		$hour->delete();
-		return redirect('/hours')->with('success', 'Hour Removed.');
+		//return redirect('/hours')->with('success', 'Hour Removed.');
+		return response()->json($hour);
+    }
+	
+	    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function loadhours(Request $request)
+    {
+		//$project_codes = '';
+		$project_codes = User::find(auth()->user()->id)->assigned_project_codes;
+		$current_date = $request->input('current_date');
+		//$clients = $project_codes->client_id;
+		$client_ids=[];
+		foreach ($project_codes as $project_code){
+			$client_ids[]=$project_code['client_id'];
+		}
+		$clients = Client::whereIn('id',$client_ids)->get();
+		$hours = Hour::orderBy('created_at','desc')->paginate(10);
+		//$hours = Hour::orderBy('created_at','asc')->where('date', $current_date)->get();
+		$hours = Hour::orderBy('created_at','asc')->where('date', $current_date)->where('user_id', 'like', auth()->user()->id)->get();
+		//$hours = $hours_all->user;
+        return view('hours.loadhours',compact('hours','project_codes','clients','current_date'));
+		//return response()->json($hour);
+		//return View::make('hours.loadhours',compact('hours','project_codes','clients'))->render();
     }
 }
