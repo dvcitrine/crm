@@ -1,26 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="tablelike">
-        <div>
-			<div>Name</div>
-			<div>E-Mail</div>
-			<div>User</div>
-			<div>Manager</div>
-			<div>Admin</div>
-			<div></div>
-        </div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">E-mail</th>
+				<th scope="col">Role</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
 
 		@foreach($users as $user)
-		<form action="{{ route('admin') }}" method="post">
-			<div>{{ $user->name }}</div>
-			<div>{{ $user->email }} <input type="hidden" name="email" value="{{ $user->email }}"></div>
-			<div><input type="radio" {{ $user->hasRole('user') ? 'checked' : '' }} name="role_user"></div>
-			<div><input type="radio" {{ $user->hasRole('manager') ? 'checked' : '' }} name="role_user"></div>
-			<div><input type="radio" {{ $user->hasRole('admin') ? 'checked' : '' }} name="role_user"></div>
-			<div><button class="btn" type="submit">Assign Role</button></div>
-		</form>
+		<tr>
+			<td><a href="/users/{{$user->id}}">{{ $user->name }}</a></td>
+			<td>{{ $user->email }}</td>
+			<td>{{ $user->roles[0]->description}} </td>
+			<td><a href="/users/{{$user->id}}/edit" class="btn btn-default">Edit</a></td>
+			
+		</tr>
         @endforeach
-
+			</tbody>
+		</table>
     </div>
 @endsection

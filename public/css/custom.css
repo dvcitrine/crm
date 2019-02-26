@@ -88,3 +88,19 @@ h1 {
     content: " ";
     display: table;
 }
+
+
+@media (min-width: 979px) {
+	ul.nav li.dropdown:hover > .dropdown-menu {
+		display: block;
+	}
+	li.dropdown > .dropdown-menu {
+		top: 94%;
+	}
+}
+
+
+
+
+
+

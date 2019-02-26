@@ -29,7 +29,8 @@ Route::get('/destroy_hour', 'HoursController@destroy_hour');
 
 Route::post('/loadmorehours', 'HoursController@loadhours');
 Route::get('/about', 'PagesController@about');
-Route::get('/users', 'UsersController@index')->name('users');
+//Route::get('/users', 'UsersController@index')->name('users');
+Route::resource('users', 'UsersController');
 //Route::get('/services', 'PagesController@services');
 
 Route::resource('posts', 'PostsController');

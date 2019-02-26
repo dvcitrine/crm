@@ -43,43 +43,47 @@
 			@guest
 				@else
 				<!-- Left Side Of Navbar -->
-				<ul class="navbar-nav mr-auto">
+				<ul class="nav navbar-nav mr-auto">
 				<li class="nav-item">
-				<a class="nav-link" href="/">Home</a>
+					<a class="nav-link" href="/">Home</a>
 				</li>
 					@if (auth()->user()->hasRole('admin'))
 						<li class="nav-item">
-						<a class="nav-link" href="/services">Services</a>
+							<a class="nav-link" href="/services">Services</a>
 						</li>
-
-						<li class="nav-item">
-						<a class="nav-link" href="/clients">Clients</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="/clients" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clients</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown01">
+								<a class="dropdown-item" href="/clients">All Clients</a>
+								<a class="dropdown-item" href="/clients/create">{{ __('Add New Client') }}</a>
+							</div>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/users">Users</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="/users" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown01">
+								<a class="dropdown-item" href="/users">All Users</a>
+								<a class="dropdown-item" href="{{ route('register') }}">{{ __('Add New User') }}</a>
+							</div>
 						</li>
 					@endif
 					@if (auth()->user()->hasRole('admin')||auth()->user()->hasRole('manager'))
-						<li class="nav-item">
-							<a class="nav-link" href="/projects">Projects</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="/projects" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Projects</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown01">
+								<a class="dropdown-item" href="/projects">All Projects</a>
+								<a class="dropdown-item" href="/projects/create">{{ __('Add New Project') }}</a>
+							</div>
 						</li>
 					@endif
 					<!--<li class="nav-item">
 					<a class="nav-link" href="/admin">Admin</a>
 					</li>-->
 					@if (Route::has('register'))
-					<li class="nav-item">
-					<a class="nav-link" href="{{ route('register') }}">{{ __('Add New User') }}</a>
-					</li>
+					<!--<li class="nav-item">
+						<a class="nav-link" href="{{ route('register') }}">{{ __('Add New User') }}</a>
+					</li>-->
 					@endif
-				<!--<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-				<div class="dropdown-menu" aria-labelledby="dropdown01">
-				  <a class="dropdown-item" href="#">Action</a>
-				  <a class="dropdown-item" href="#">Another action</a>
-				  <a class="dropdown-item" href="#">Something else here</a>
-				</div>
-				</li>-->
+
 				</ul>
 			@endguest
 			<!-- Right Side Of Navbar -->
