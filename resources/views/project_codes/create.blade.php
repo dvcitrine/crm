@@ -11,7 +11,7 @@
 				Name
 				<div class="input-group">					
 					{{ Form::text('title-client', '', ['class' => 'form-control', 'placeholder' => 'client', 'readonly' => 'true', 'id' => 'project_title_client'] )}}
-					{{ Form::text('title-body', '', ['class' => 'form-control', 'placeholder' => 'description', 'readonly' => 'true', 'id' => 'project_title_body'] )}}
+					{{ Form::text('title-description', '', ['class' => 'form-control', 'placeholder' => 'description', 'readonly' => 'true', 'id' => 'project_title_descritpion'] )}}
 					{{ Form::text('title-month', '', ['class' => 'form-control', 'placeholder' => 'month', 'readonly' => 'true', 'id' => 'project_title_month'] )}}
 					{{ Form::text('title-year', '', ['class' => 'form-control', 'placeholder' => 'year', 'readonly' => 'true', 'id' => 'project_title_year'] )}}
 					{{ Form::text('title-service', '', ['class' => 'form-control', 'placeholder' => 'service', 'readonly' => 'true', 'id' => 'project_title_service'] )}}
@@ -55,7 +55,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('year', 'Year') }}
-				<select id="project_year" name="client" class="form-control">
+				<select id="project_year" name="year" class="form-control">
 					<option disabled selected value> -- Select a year -- </option>
 					<option value="2019"> 2019 </option>
 					<option value="2020"> 2020 </option>
@@ -63,8 +63,12 @@
 				</select>
 			</div>
 			<div class="form-group">
-				{{ Form::label('body', 'Description') }}
-				{{ Form::text('body', '', ['class' => 'form-control', 'placeholder' => 'Description', 'id' => 'project_body'] )}}
+				{{ Form::label('description', 'Description') }}
+				{{ Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Description', 'id' => 'project_description'] )}}
+			</div>
+			<div class="form-group">
+				{{ Form::label('body', 'Brief') }}
+				{{ Form::textarea('body', '', ['id'=> 'article-ckeditor','class' => 'form-control', 'placeholder' => 'Brief description'] )}}
 			</div>
 			<div class="form-group">
 				{{ Form::label('start-date', 'Start Date') }}

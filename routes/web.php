@@ -27,7 +27,10 @@ Route::post('/edithour', 'HoursController@show');
 Route::put('/update', 'HoursController@update');
 Route::get('/destroy_hour', 'HoursController@destroy_hour');
 
+Route::get('/reports', 'HoursController@reports');
+
 Route::post('/loadmorehours', 'HoursController@loadhours');
+Route::post('/loadhoursinreport', 'HoursController@loadhoursinreport');
 Route::get('/about', 'PagesController@about');
 //Route::get('/users', 'UsersController@index')->name('users');
 Route::resource('users', 'UsersController');
@@ -37,6 +40,7 @@ Route::resource('posts', 'PostsController');
 Route::resource('services', 'ServicesController');
 Route::resource('clients', 'ClientsController');
 Route::resource('projects', 'ProjectCodesController');
+Route::resource('contacts', 'ContactsController');
 Route::resource('/', 'HoursController');
 Auth::routes();
 

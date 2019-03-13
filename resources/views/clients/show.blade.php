@@ -3,7 +3,9 @@
 @section('content')
 	<a href="/clients" class="btn btn-back">Back</a>
 	<div class="content">
-		<img src="{{asset('storage/logos')}}/{!!$client->logo!!}">
+		@if ($client->logo)
+			<img src="{{asset('storage/logos')}}/{!!$client->logo!!}">
+		@endif
 		<h1>{{$client->title}}</h1>
 		<div class="row">
 			<div class="col-md-6">

@@ -7,6 +7,7 @@ use App\ProjectCode;
 use App\Service;
 use App\Client;
 use App\User;
+use DateTime;
 // use this to use normal sql
 //use DB;
 
@@ -31,7 +32,7 @@ class ProjectCodesController extends Controller
      */
     public function index()
     {
-		$projectcodes = ProjectCode::orderBy('created_at','desc')->paginate(10);
+		$projectcodes = ProjectCode::orderBy('created_at','desc')->get();
         return view('project_codes.index')->with('project_codes',$projectcodes);
     }
 
@@ -58,18 +59,25 @@ class ProjectCodesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			
+			'month' => 'required',
+			'year' => 'required',
+			'client' => 'required',
+			'service' => 'required',
+			'description' => 'required'
 		]);
 		// Create ProjectCode
 		$projectcode = new ProjectCode;
-		$projectcode->title = $request->input('title');
+		$projectcode->title = $request->input('title-client').$request->input('title-description').$request->input('title-month').$request->input('title-year').$request->input('title-service');
 		$projectcode->body = $request->input('body');
+		$projectcode->description = $request->input('description');
 		$projectcode->client_id = $request->input('client');
 		$projectcode->service_id = $request->input('service');
 		$projectcode->month = $request->input('month');
 		$projectcode->year = $request->input('year');
-		$projectcode->start_date = $request->input('start-date');
-		$projectcode->end_date = $request->input('end-date');
+		$start_date = DateTime::createFromFormat('d/m/Y', $request->input('start-date'));
+		$projectcode->start_date = $start_date->format('Y-m-d');
+		$end_date = DateTime::createFromFormat('d/m/Y', $request->input('end-date'));
+		$projectcode->end_date = $end_date->format('Y-m-d');
 		$projectcode->internal_link = $request->input('internal-link');
 		$projectcode->client_link = $request->input('client-link');
 		$projectcode->active = $request->input('active');
@@ -79,7 +87,7 @@ class ProjectCodesController extends Controller
 		//$projectcode->save()->assigned_users()->attach($assigned_to);
 		$projectcode->save();
 		$projectcode->assigned_users()->sync($assigned_to);
-		return redirect('/project-codes')->with('success', 'Project Code Created.');
+		return redirect('/projects')->with('success', 'Project Code Created.');
     }
 
     /**
@@ -109,14 +117,14 @@ class ProjectCodesController extends Controller
     {
         $project_code = ProjectCode::find($id);
 		//$users = ProjectCode::find($id)->assigned_users;
-		$users = User::all();
+		$users = User::where('active', '1')->get();
 		$services = Service::all();
-		$clients = Client::all();
+		$clients = Client::where('active', '1')->get();
 		$chosen_client = Client::find($project_code->client_id);
 		//Check for correct user
 		if((auth()->user()->hasRole('author'))) {
 		//(auth()->user()->roles());
-			return redirect('/project-codes')->with('error', 'Unauthorized page');
+			return redirect('/projects')->with('error', 'Unauthorized page');
 		}
 		
 		return view('project_codes.edit',compact('project_code','clients','users','chosen_client','services'));
@@ -132,22 +140,33 @@ class ProjectCodesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'title' => 'required',
 			'body' => 'required'
 			
 		]);
 		// Create ProjectCode
 		$projectcode = ProjectCode::find($id);
-		$projectcode->title = $request->input('title');
+		$projectcode->title = $request->input('title-client').$request->input('title-description').$request->input('title-month').$request->input('title-year').$request->input('title-service');
 		$projectcode->body = $request->input('body');
+		$projectcode->description = $request->input('description');
 		$projectcode->client_id = $request->input('client');
 		$projectcode->service_id = $request->input('service');
+		$projectcode->month = $request->input('month');
+		$projectcode->year = $request->input('year');
+		$start_date = DateTime::createFromFormat('d/m/Y', $request->input('start-date'));
+		$projectcode->start_date = $start_date->format('Y-m-d');
+		$end_date = DateTime::createFromFormat('d/m/Y', $request->input('end-date'));
+		$projectcode->end_date = $end_date->format('Y-m-d');
+		$projectcode->internal_link = $request->input('internal-link');
+		$projectcode->client_link = $request->input('client-link');
+		$projectcode->active = $request->input('active');
+		//$projectcode->user_id = auth()->user()->id;
+		$projectcode->user_id = $request->input('manager');
 		$assigned_to = $request->input('user_id');
 		
 		$projectcode->save();
 		$projectcode->assigned_users()->sync($assigned_to);
 		
-		return redirect('/project-codes')->with('success', 'Project code updated.');
+		return redirect('/projects')->with('success', 'Project updated.');
     }
 
     /**
@@ -167,6 +186,6 @@ class ProjectCodesController extends Controller
 		}
 		$projectcode->assigned_users()->sync([]);
 		$projectcode->delete();
-		return redirect('/project_codes')->with('success', 'ProjectCode Removed.');
+		return redirect('/projects')->with('success', 'ProjectCode Removed.');
     }
 }

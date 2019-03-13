@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Contact extends Model
 {
     //Table Name. Optional if set to the plural of the model name
-	protected $table = 'clients';
+	protected $table = 'contacts';
 	//Primary key. Optional if set to 'id'
 	public $primaryKey = 'id';
 	
@@ -15,10 +15,7 @@ class Client extends Model
 	public function user(){
 		return $this->belongsTo('App\User');
 	}
-	public function project_codes(){
-		return $this->hasMany('App\ProjectCode');
-	}
-	public function contacts(){
-		return $this->hasMany('App\Contact');
+	public function client(){
+		return $this->belongsTo('App\Client');
 	}
 }

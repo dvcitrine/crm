@@ -20,6 +20,13 @@
 					@endforeach
 				</select>
 			</div>
+			<div class="form-group">
+				{{ Form::label('active', 'Active') }}
+				<select name="active" class="form-control">
+						<option value="1" {{ $user->active==1 ? 'selected' : '' }}>Yes</option>
+						<option value="0" {{ $user->active==0 ? 'selected' : '' }}>No</option>
+				</select>
+			</div>
 			{{Form::hidden('_method', 'PUT')}} <!-- This is because update requires PUT and we cant change the form method directly-->
 			{{Form::submit('Update User', ['class' => 'btn btn-submit'])}}
 		{!! Form::close() !!}

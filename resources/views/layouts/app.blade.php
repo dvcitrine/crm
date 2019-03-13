@@ -42,6 +42,8 @@
 	<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 	<script src="{{ asset('js/select2.min.js') }}"></script>
 	<script src="{{ asset('js/moment.min.js') }}"></script>
+	<script src="{{ asset('js/moment-timezone.js') }}"></script>
+	<script src="{{ asset('js/moment-timezone-with-data-2012-2022.js') }}"></script>
 	<script src="{{ asset('js/daterangepicker.min.js') }}"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

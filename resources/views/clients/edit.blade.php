@@ -11,7 +11,9 @@
 					{{ Form::text('nickname', $client->nickname, ['class' => 'form-control', 'placeholder' => 'nickname'] )}}
 				</div>
 				<div class="form-group">
-					<img src="{{asset('storage/logos')}}/{!!$client->logo!!}">
+					@if ($client->logo)
+						<img src="{{asset('storage/logos')}}/{!!$client->logo!!}">
+					@endif
 					{{ Form::label('logo', 'Logo') }}<br>
 					{{ Form::file('logo',['class' => ''])}}
 				</div>

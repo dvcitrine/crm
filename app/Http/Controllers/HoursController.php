@@ -9,6 +9,7 @@ use App\Service;
 use App\Client;
 use App\User;
 use View;
+
 // use this to use normal sql
 //use DB;
 
@@ -189,4 +190,124 @@ class HoursController extends Controller
 		//return response()->json($hour);
 		//return View::make('hours.loadhours',compact('hours','project_codes','clients'))->render();
     }
+	
+	
+	
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function reports()
+    {
+		$today = date('l, j / n / Y');
+		$today_timestamp = strtotime("today");
+		$first_day = strtotime(date('Y-m-01'));
+		$today = date('F Y');
+		
+		//$project_codes = '';
+		$project_codes = ProjectCode::where('active', '1')->get();
+		//$clients = $project_codes->client_id;
+		$clients = array();
+		foreach ($project_codes as $project_code){
+			$include_project = 0;
+			$time_hours = 0;
+			$time_minutes= 0;
+			//$hours = Hour::orderBy('created_at','asc')->whereBetween('date', [$first_day, $today_timestamp])->where('project_code_id', $project_code->id)->where('user_id', 'like', auth()->user()->id)->get();
+			$hours = Hour::orderBy('created_at','asc')->where('project_code_id', $project_code->id)->whereBetween('date', [$first_day, $today_timestamp])->where('user_id', 'like', auth()->user()->id)->get();
+			$count = $hours->count();
+			if ($count>0){
+				$include_project = 1;
+				$time = 0;
+				foreach ($hours as $hour){
+					$time += $hour->minutes;
+				}
+				$time_hours = floor(($time)/60);
+				$time_minutes = (($time)%60);
+				$time_minutes = sprintf("%02d", $time_minutes);
+				$clients[$project_code->client->id] = $project_code->client->nickname;
+			}
+			$project_code->include_project = $include_project;
+			$project_code->time_hours = $time_hours;
+			$project_code->time_minutes = $time_minutes;
+		}		
+		//$hours = Hour::orderBy('created_at','desc')->paginate(10);		
+		//$hours = $hours_all->user;
+        return view('hours.reports',compact('today','project_codes','clients','today_timestamp','first_day'));
+
+    }
+	
+	public function loadhoursinreport(Request $request)
+	{
+		//$today = date('l, j / n / Y');
+		//$today_timestamp = strtotime("today");
+		//$first_day = strtotime(date('Y-m-01'));
+		//$today = date('F Y');
+		$start_date = $request->input('start_date');
+		$month = date("M Y", $start_date);
+		if($request->input('end_date')){
+			$last_day = $request->input('end_date');
+		}
+		else {
+			$last_day = strtotime('last day of ' . $month);
+		}
+		$project_codes = ProjectCode::where('active', '1')->get();
+		$client_ids=[];
+		foreach ($project_codes as $project_code){
+			$include_project = 0;
+			$time_hours = 0;
+			$time_minutes= 0;
+			$hours = Hour::orderBy('created_at','asc')->where('project_code_id', $project_code->id)->whereBetween('date', [$start_date, $last_day])->where('user_id', 'like', auth()->user()->id)->get();
+			$count = $hours->count();
+			if ($count>0){
+				$include_project = 1;
+				$time = 0;
+				foreach ($hours as $hour){
+					$time += $hour->minutes;
+				}
+				$time_hours = floor(($time)/60);
+				$time_minutes = (($time)%60);
+				$time_minutes = sprintf("%02d", $time_minutes);
+			}
+			$project_code->include_project = $include_project;
+			$project_code->time_hours = $time_hours;
+			$project_code->time_minutes = $time_minutes;
+		}
+		$clients = Client::whereIn('id',$client_ids)->get();
+		
+		//$hours = Hour::orderBy('created_at','desc')->paginate(10);
+		
+		//$hours = $hours_all->user;
+        //return view('hours.loadhoursreport',compact('project_codes','start_date','last_day'));
+		/*return \Response::json([
+            'view_1' => view('hours.loadhoursreport',compact('project_codes','start_date','last_day'))->render()
+        ]);*/
+		
+
+		$returnHTML = view('hours.loadhoursreport',compact('project_codes','start_date','last_day'))->render();
+		//$returnHTML = trim(preg_replace('/\r\n/', ' ', $returnHTML));
+//return response()->json(array('success' => true, 'view_1'=>$returnHTML));
+//echo json_encode(array('success1' => true, 'view_1'=>$returnHTML));
+return \Response::json(array('view_1' => $returnHTML, 'status' => 'OK'));
+	}	
+	
+/*	
+	public function reports_hours()
+    {
+		$project_codes = User::find(auth()->user()->id)->assigned_project_codes;
+		$client_ids=[];
+		foreach ($project_codes as $project_code){
+			$client_ids[]=$project_code['client_id'];
+		}
+		$clients = Client::whereIn('id',$client_ids)->get();
+		$today = date('l, j / n / Y');
+		$today_timestamp = strtotime("today");
+		$first_day = strtotime(date('Y-m-01'));
+		$today = date('F Y');
+		$hours = Hour::orderBy('created_at','asc')->whereBetween('date', [$first_day, $today_timestamp])->where('user_id', 'like', auth()->user()->id)->get();
+        return view('hours.reports',compact('hours','today','project_codes','clients','today_timestamp','first_day'));
+    }
+	*/
+	
+	
 }

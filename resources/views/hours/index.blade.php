@@ -73,8 +73,8 @@
 					<div class="modal-body">    
 						<form id="hours_form" action="{{action('HoursController@store')}}" method='POST' class="form-horizontal">    
 						@csrf
-						<input id="chosen_date" type="text" name="timestamp" value="{{$today_timestamp}}">
-						<input id="modal_hour_id" type="text" name="modal_hour_id" value="">
+						<input id="chosen_date" type="hidden" name="timestamp" value="{{$today_timestamp}}">
+						<input id="modal_hour_id" type="hidden" name="modal_hour_id" value="">
 							<div class="form-group row">      
 								<label class="col-md-2 control-label">Project</label>      
 								<div class="col-md-8">        
@@ -113,9 +113,9 @@
 								<label class="control-label col-md-2">Duration</label>      
 								<div class="col-md-4">        
 									<div class="input-group" id="hours" >	
-										<input class="col-md-4" id="hours_input" name="hours" type="text" >
+										<input class="col-md-4 form-control" id="hours_input" name="hours" type="text" >
 										<span style="margin:2px 10px 0">:</span>
-										<input class="col-md-4" id="minutes_input" name="minutes" type="text" >
+										<input class="col-md-4 form-control" id="minutes_input" name="minutes" type="text" >
 									</div>   
 								</div>       
 							</div>     

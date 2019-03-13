@@ -11,7 +11,6 @@ class UsersController extends Controller
 
 	public function index(){
 		$users = User::all();
-		//$users = 'φφφ';
 		$title = 'Admin';
 		return view('users.index')->with('users',$users );
 		//return view('admin')->with('title',$title);
@@ -50,11 +49,14 @@ class UsersController extends Controller
     {
 		// Create user role
 		$user = User::find($id);
-		$user->title = $request->input('title');
-		$user->body = $request->input('body');
-		$user->body = $request->input('role');
+
+		$user->name = $request->input('name');
+		$user->email = $request->input('email');
+		$role = $request->input('role');
+		$user->active = $request->input('active');
+		//$user->roles->sync($role);
 		$user->save();
 		
-		return redirect('/users')->with('success', 'User role Updated.');
+		return redirect('/users')->with('success', 'User updated.');
     }
 }

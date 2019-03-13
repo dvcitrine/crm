@@ -60,8 +60,8 @@ class ClientsController extends Controller
     {
         $this->validate($request, [
 			'nickname' => 'required',
-			'email' => 'required'
-			
+			'email' => 'required',
+			'title' => 'required'
 		]);
 		// Create Client
 		$client = new Client;
@@ -71,6 +71,7 @@ class ClientsController extends Controller
 		$client->email = $request->input('email');
 		$client->country = $request->input('country');
 		$client->notes = $request->input('notes');
+		$client->active = $request->input('active');
 		$client->title = $request->input('title');
 		$client->occupation = $request->input('occupation');
 		$client->doy = $request->input('doy');
