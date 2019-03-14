@@ -60,8 +60,12 @@ class ClientsController extends Controller
     {
         $this->validate($request, [
 			'nickname' => 'required',
-			'email' => 'required',
-			'title' => 'required'
+			'title' => 'required',
+			'email' => 'required|email',
+			'address' => 'required',
+			'afm' => 'required|digits:9',
+			'tk' => 'required|digits:5',
+			'telephone' => 'required|digits:10',
 		]);
 		// Create Client
 		$client = new Client;
@@ -126,8 +130,14 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+			'nickname' => 'required',
 			'title' => 'required',
-			'nickname' => 'required'
+			'email' => 'required|email',
+			'name' => 'required',
+			'address' => 'required',
+			'afm' => 'required|digits:9',
+			'tk' => 'required|digits:5',
+			'telephone' => 'required|digits:10',
 			
 		]);
 		// Update Client

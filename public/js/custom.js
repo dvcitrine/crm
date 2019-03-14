@@ -464,7 +464,7 @@ $(document).ready(function( $ ) {
 		$.ajax({
 			url: "/loadhoursinreport",
 			method: 'post',
-			dataType: "html",
+			dataType: "json",
 			data: {				
 				start_date: time
 			},
@@ -472,7 +472,15 @@ $(document).ready(function( $ ) {
 				console.log(result);
 				console.log('result');
 				$('#report_task_list').html('');
-				$('#report_task_list').append(result);
+				$('#report_task_list').append(result.loadhours);
+				$('#filter_clients').html('');
+				$.each((result.clients), function(index, value) {
+				  $('#filter_clients').append('<option value='+index+'>'+value+'</option>');
+				});
+				$('#filter_projects').html('');
+				$.each((result.project_list), function(index, value) {
+				  $('#filter_projects').append('<option value='+index+'>'+value+'</option>');
+				});
 			},
 			error:function(jqXHR, exception){
 				var msg = '';
@@ -518,7 +526,11 @@ $(document).ready(function( $ ) {
 				console.log(result);
 				console.log('result');
 				$('#report_task_list').html('');
-				$('#report_task_list').append(result.view_1);
+				$('#report_task_list').append(result.loadhours);
+				$('#filter_clients').html('');
+				$.each((result.clients), function(index, value) {
+				  $('#filter_clients').append('<option value='+value+'>'+index+'</option>');
+				});
 			},
 			error:function(jqXHR, exception){
 				var msg = '';

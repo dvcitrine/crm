@@ -54,9 +54,11 @@ class ContactsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+			'email' => 'required|email',
 			'name' => 'required',
-			'email' => 'required',
-			'telephone' => 'required'
+			'afm' => 'digits:9',
+			'tk' => 'digits:5',
+			'telephone' => 'required|digits:10',
 			
 		]);
 		// Create Contact
@@ -119,8 +121,11 @@ class ContactsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'email' => 'required',
-			'name' => 'required'
+			'email' => 'required|email',
+			'name' => 'required',
+			'afm' => 'digits:9',
+			'tk' => 'digits:5',
+			'telephone' => 'required|digits:10',
 			
 		]);
 		// Update Contact

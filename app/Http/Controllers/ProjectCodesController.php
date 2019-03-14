@@ -63,6 +63,8 @@ class ProjectCodesController extends Controller
 			'year' => 'required',
 			'client' => 'required',
 			'service' => 'required',
+			'start-date' => 'required',
+			'end-date' => 'required',
 			'description' => 'required'
 		]);
 		// Create ProjectCode
@@ -140,7 +142,13 @@ class ProjectCodesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'body' => 'required'
+			'month' => 'required',
+			'year' => 'required',
+			'client' => 'required',
+			'service' => 'required',
+			'start-date' => 'required',
+			'end-date' => 'required',
+			'description' => 'required'
 			
 		]);
 		// Create ProjectCode

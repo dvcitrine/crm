@@ -243,6 +243,7 @@ class HoursController extends Controller
 		//$today_timestamp = strtotime("today");
 		//$first_day = strtotime(date('Y-m-01'));
 		//$today = date('F Y');
+		$clients = array();
 		$start_date = $request->input('start_date');
 		$month = date("M Y", $start_date);
 		if($request->input('end_date')){
@@ -252,7 +253,8 @@ class HoursController extends Controller
 			$last_day = strtotime('last day of ' . $month);
 		}
 		$project_codes = ProjectCode::where('active', '1')->get();
-		$client_ids=[];
+		$client_ids = array();
+		$project_list = array();
 		foreach ($project_codes as $project_code){
 			$include_project = 0;
 			$time_hours = 0;
@@ -268,13 +270,16 @@ class HoursController extends Controller
 				$time_hours = floor(($time)/60);
 				$time_minutes = (($time)%60);
 				$time_minutes = sprintf("%02d", $time_minutes);
+				$clients[$project_code->client->id] = $project_code->client->nickname;
+				$project_list[$project_code->id] = $project_code->title ;
 			}
 			$project_code->include_project = $include_project;
 			$project_code->time_hours = $time_hours;
 			$project_code->time_minutes = $time_minutes;
 		}
-		$clients = Client::whereIn('id',$client_ids)->get();
-		
+		//$clients = Client::whereIn('id',$client_ids)->get();
+		$clients = array('0' => 'all clients') + $clients;
+		$project_list = array('0' => 'all projects!!') + $project_list;
 		//$hours = Hour::orderBy('created_at','desc')->paginate(10);
 		
 		//$hours = $hours_all->user;
@@ -282,13 +287,12 @@ class HoursController extends Controller
 		/*return \Response::json([
             'view_1' => view('hours.loadhoursreport',compact('project_codes','start_date','last_day'))->render()
         ]);*/
-		
 
 		$returnHTML = view('hours.loadhoursreport',compact('project_codes','start_date','last_day'))->render();
-		//$returnHTML = trim(preg_replace('/\r\n/', ' ', $returnHTML));
-//return response()->json(array('success' => true, 'view_1'=>$returnHTML));
-//echo json_encode(array('success1' => true, 'view_1'=>$returnHTML));
-return \Response::json(array('view_1' => $returnHTML, 'status' => 'OK'));
+		//$returnHTML = trim(preg_replace('/\s+|\n+|\r/', ' ', $returnHTML));
+		//return response()->json(array('success' => true, 'view_1'=>$returnHTML));
+		//echo json_encode(array('success1' => true, 'view_1'=>$returnHTML));
+		return \Response::json(array('loadhours' => view('hours.loadhoursreport',compact('project_codes','start_date','last_day'))->render(), 'status' => 'OK', 'clients' => $clients,'project_list' => $project_list));
 	}	
 	
 /*	
